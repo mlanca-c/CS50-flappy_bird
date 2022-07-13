@@ -39,6 +39,9 @@
 ### flappy_bird-10 "The Countdown Update"
  * flappy_bird-10 introduces yet another state, CountdownState, whose purpose is to give the user time to get ready before being thrust into the game.
 
+### flappy_bird-11 "The Sound Update"
+ * flappy_bird-11 adds some music and sound effects to the game.
+
 # Cloning
 
  ```
