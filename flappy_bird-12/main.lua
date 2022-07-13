@@ -108,6 +108,9 @@ function love.load()
 	-- initialize keyspressed table
 	love.keyboard.keysPressed = {}
 
+	-- initialize buttonspressed table
+	love.mouse.buttonsPressed = {}
+
 end
 
 -- love.update(dt) updates the state of the game every frame.
@@ -124,6 +127,9 @@ function love.update( dt )
 
 	-- restart keyspressed table
 	love.keyboard.keysPressed = {}
+
+	-- restart keyspressed table
+	love.mouse.buttonsPressed = {}
 
 end
 
@@ -158,8 +164,18 @@ function love.keypressed( key )
 	end
 end
 
+function love.mousepressed( x, y, button )
+	-- update buttonpressed table with pressed button
+	love.mouse.buttonsPressed[ button ] = true
+
+end
+
 function love.keyboard.wasPressed( key )
 	return love.keyboard.keysPressed[ key ]
+end
+
+function love.mouse.wasPressed( button )
+	return love.mouse.buttonsPressed[ button ]
 end
 
 function love.resize( w, h )
