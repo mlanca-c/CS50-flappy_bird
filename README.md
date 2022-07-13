@@ -27,6 +27,12 @@
 ### flappy_bird-06 "The PipePairs Update"
  * flappy_bird-06 spawns the pipe stripe in "pairs", with one pipe facing up and the other facing down.
 
+### flappy_bird-07 "The Collision Update"
+ * flappy_bird-07 introduces collision detection, pausing the game when a collision occurs.
+
+### flappy_bird-08 "The State Machine Update"
+ * flappy_bird-08 modularizes our code as State Machine.
+
 # Cloning
 
  ```

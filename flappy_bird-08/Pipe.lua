@@ -12,7 +12,7 @@ Pipe = Class{}
 -- pipe image is drawn outside because it only needs to happen once
 local PIPE_IMAGE = love.graphics.newImage( 'pipe.png' )
 
-PIPE_SCROLL_SPEED = -60
+PIPE_SPEED = 60
 
 -- pipe dimensions
 PIPE_HEIGHT = 430
@@ -36,7 +36,6 @@ end
 
 -- updates a Pipe object's attributes
 function Pipe:update( dt )
-	self.x = self.x + PIPE_SCROLL_SPEED * dt
 end
 
 -- draws a Pipe object to the screen

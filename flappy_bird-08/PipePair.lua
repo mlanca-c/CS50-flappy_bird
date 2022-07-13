@@ -33,7 +33,7 @@ function PipePair:update( dt )
 
 	-- updating each pipePair's x
 	if self.x > -PIPE_WIDTH then
-		self.x = self.x + PIPE_SCROLL_SPEED * dt
+		self.x = self.x - PIPE_SPEED * dt
 		self.pipes[ 'upper' ].x = self.x
 		self.pipes[ 'lower' ].x = self.x
 	else

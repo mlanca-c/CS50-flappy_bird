@@ -19,8 +19,14 @@ require 'Pipe'
 -- pipePair class
 require 'PipePair'
 
+-- all states classes
+require 'StateMachine'
+require 'states/BaseState'
+require 'states/PlayState'
+require 'states/TitleScreenState'
+
 -- library used for a more retro looking game
-push = require 'push'
+local push = require 'push'
 
 -- window dimensions
 WINDOW_WIDTH = 1280
@@ -46,21 +52,8 @@ local BACKGROUND_LOOP_POINT = 413
 local BACKGROUND_SCROLL_SPEED = 30
 local backgroundScroll = 0
 
--- bird init
-local bird = Bird()
-
--- pipes init
-local pipes = {}
-
--- timer for spawning pipes
-local spawnTimer = 0
-
 -- scrolling variable that when set to false, stops the game
 local scrolling = true
-
--- initialize our last recorded Y value for a gap placement to base other gaps
--- off of
-local lastY = -PIPE_HEIGHT + math.random(80) + 20
 
 -- love.load() it's used to initialize game state at the very beginning.
 function love.load()
@@ -69,6 +62,16 @@ function love.load()
 
 	-- Setting up window title
 	love.window.setTitle( 'flappy bird' )
+
+	-- initializing all game fonts
+	fonts = {
+		[ 'smallFont' ] = love.graphics.newFont( 'font.ttf', 8 ),
+		[ 'mediumFont' ] =  love.graphics.newFont( 'flappy.ttf', 14 ),
+		[ 'flappyFont' ] =  love.graphics.newFont( 'flappy.ttf', 28 ),
+		[ 'hugeFont' ] =  love.graphics.newFont( 'flappy.ttf', 56 )
+	}
+	-- setting up initial font
+	love.graphics.setFont( fonts[ 'flappyFont' ] )
 
 	-- Setting up screen
 	push:setupScreen(
@@ -79,6 +82,14 @@ function love.load()
 		{ fullscreen = false, resizable = true, vsync = true }
 	)
 
+	-- initializing gStateMachine with all states returning functions
+	gStateMachine = StateMachine{
+		[ 'title' ] = function() return TitleScreenState() end,
+		[ 'play' ] = function() return PlayState() end
+	}
+	-- setting up initial game state
+	gStateMachine:change( 'title' )
+
 	-- initialize keyspressed table
 	love.keyboard.keysPressed = {}
 
@@ -86,67 +97,15 @@ end
 
 -- love.update(dt) updates the state of the game every frame.
 function love.update( dt )
-	if scrolling then
-		-- claculating groundScroll
-		groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt )
-						% GROUND_LOOP_POINT
+	-- claculating groundScroll
+	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt )
+					% GROUND_LOOP_POINT
 
-		-- claculating backgroundScroll
-		backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
-						% BACKGROUND_LOOP_POINT
+	-- claculating backgroundScroll
+	backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
+					% BACKGROUND_LOOP_POINT
 
-		-- update spawnTimer
-		spawnTimer = spawnTimer + dt
-
-		-- spawn a new pipe in every two seconds
-		if spawnTimer > 2 then
-
-			-- getting y value of pipePair
-			local y = math.random(
-				-PIPE_HEIGHT + 10,
-				math.min(
-					lastY + math.random( -20, 20 ),
-					VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT
-				)
-			)
-			lastY = y
-
-			-- inserting one more pipePair object in image
-			table.insert( pipes, PipePair( y ))
-			spawnTimer = 0
-
-		end
-
-		-- update bird
-		bird:update( dt )
-
-		-- for every pipe in the scene
-		for k, pair in pairs( pipes ) do
-			-- update each pipe
-			pair:update( dt )
-
-			-- check for collisions
-			for l, pipe in pairs( pair.pipes ) do
-				if bird:collides( pipe ) then
-					scrolling = false
-				end
-			end
-
-			if pair.x < -PIPE_WIDTH then
-				pair.remove = true
-			end
-
-		end
-
-		-- for every pipe in the scene
-		for k, pipe in pairs( pipes ) do
-
-			-- remove pipes out of the scene
-			if pipe.remove then
-				table.remove( pipes, k )
-			end
-		end
-	end
+	gStateMachine:update( dt )
 
 	-- restart keyspressed table
 	love.keyboard.keysPressed = {}
@@ -163,17 +122,12 @@ function love.draw()
 	-- draw background image
 	love.graphics.draw( background, -backgroundScroll, 0 )
 
-	-- draw pipes
-	for k, pipe in pairs( pipes ) do
-		pipe:render()
-	end
+	-- render whatever's to render in the gStateMachine.current state
+	gStateMachine:render()
 
 	-- draw floor image
 	-- ground:getHeight == 16
 	love.graphics.draw( ground, -groundScroll, VIRTUAL_HEIGHT - 16 )
-
-	-- draw bird
-	bird:render()
 
 	-- drawing finishes here
 	push:finish()
@@ -189,7 +143,7 @@ function love.keypressed( key )
 	end
 end
 
-function love.keyWasPressed( key )
+function love.keyboard.wasPressed( key )
 	return love.keyboard.keysPressed[ key ]
 end
 
