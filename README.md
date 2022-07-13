@@ -1,6 +1,6 @@
-# CS50-flappy_bird
+##flappy_bird-00 "The Day-0 Update"
 
- <small description of project>
+ * flappy_bird-00 simply draws two images to the screen - a foreground and a background.
 
  [![Stars](https://img.shields.io/github/stars/mlanca-c/CS50-flappy_bird?color=ffff00&label=Stars&logo=Stars&style=?style=flat)](https://github.com/mlanca-c/CS50-flappy_bird)
  [![Size](https://img.shields.io/github/repo-size/mlanca-c/CS50-flappy_bird?color=blue&label=Size&logo=Size&style=?style=flat)](https://github.com/mlanca-c/CS50-flappy_bird)
@@ -11,14 +11,12 @@
  ```
  git clone git@github.com:mlanca-c/CS50-flappy_bird.git
  cd CS50-flappy_bird
+ git checkout flappy_bird-00
  ```
  
 # Compiling
  
  ```
- # play the game
- love flappy_bird-final
- # try different project phases
- love flappy_bird-[00 - 12]
+ love flappy_bird-00
  ```
 
