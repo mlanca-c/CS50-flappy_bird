@@ -42,6 +42,9 @@
 ### flappy_bird-11 "The Sound Update"
  * flappy_bird-11 adds some music and sound effects to the game.
 
+### flappy_bird-12 "The Mouse Update"
+ * flappy_bird-12 adds mouse interactivity to the game in order to more closely resemble the original Flappy Bird iOS game.
+
 # Cloning
 
  ```
