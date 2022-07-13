@@ -36,6 +36,9 @@
 ### flappy_bird-09 "The Score Update"
  * flappy_bird-09 introduces a new state, ScoreState, to help keep track of the score.
 
+### flappy_bird-10 "The Countdown Update"
+ * flappy_bird-10 introduces yet another state, CountdownState, whose purpose is to give the user time to get ready before being thrust into the game.
+
 # Cloning
 
  ```
