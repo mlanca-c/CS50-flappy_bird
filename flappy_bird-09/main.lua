@@ -24,6 +24,7 @@ require 'StateMachine'
 require 'states/BaseState'
 require 'states/PlayState'
 require 'states/TitleScreenState'
+require 'states/ScoreState'
 
 -- library used for a more retro looking game
 local push = require 'push'
@@ -85,7 +86,8 @@ function love.load()
 	-- initializing gStateMachine with all states returning functions
 	gStateMachine = StateMachine{
 		[ 'title' ] = function() return TitleScreenState() end,
-		[ 'play' ] = function() return PlayState() end
+		[ 'play' ] = function() return PlayState() end,
+		[ 'score' ] = function() return ScoreState() end
 	}
 	-- setting up initial game state
 	gStateMachine:change( 'title' )

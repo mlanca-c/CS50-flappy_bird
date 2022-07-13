@@ -33,6 +33,9 @@
 ### flappy_bird-08 "The State Machine Update"
  * flappy_bird-08 modularizes our code as State Machine.
 
+### flappy_bird-09 "The Score Update"
+ * flappy_bird-09 introduces a new state, ScoreState, to help keep track of the score.
+
 # Cloning
 
  ```

@@ -28,6 +28,9 @@ function PlayState:init()
 	-- timer for spawning pipes
 	self.timer = 0
 
+	-- score
+	self.score = 0
+
     -- initialize our last recorded Y value for a gap placement to base other
 	-- gaps off of
 	self.lastY = -PIPE_HEIGHT + math.random( 80 ) + 20
@@ -59,8 +62,19 @@ function PlayState:update( dt )
 
 	end
 
-	-- update pipes
+	-- update pipes and score
 	for _, pair in pairs( self.pairs ) do
+
+		-- update score
+		if not pair.scored then
+			if pair.x + PIPE_WIDTH < self.bird.x then
+
+				self.score = self.score + 1
+				pair.scored = true
+			end
+		end
+
+		-- update pipes
 		pair:update( dt )
 	end
 
@@ -81,14 +95,14 @@ function PlayState:update( dt )
 
             if self.bird:collides( pipe ) then
 
-                gStateMachine:change( 'title' )
+				gStateMachine:change( 'score', { score = self.score })
             end
         end
     end
 
 	-- check collision with ground
 	if self.bird.y > VIRTUAL_HEIGHT - 15 then
-		gStateMachine:change( 'title' )
+		gStateMachine:change( 'score', { score = self.score })
 	end
 
 end
@@ -99,6 +113,11 @@ function PlayState:render()
 	for _, pair in pairs( self.pairs ) do
 		pair:render()
 	end
+
+
+	-- draw score
+    love.graphics.setFont(fonts[ 'flappyFont' ] )
+    love.graphics.print('Score: ' .. tostring(self.score), 8, 8)
 
 	-- draw bird
 	self.bird:render()

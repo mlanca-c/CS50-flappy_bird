@@ -26,6 +26,8 @@ function PipePair:init( y )
 
 	self.remove = false
 
+	self.scored = false
+
 end
 
 -- updates a PipePair object's attributes
