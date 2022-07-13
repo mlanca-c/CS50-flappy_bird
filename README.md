@@ -24,7 +24,7 @@
 ### flappy_bird-05 "The Infinite Pipe Update"
  * flappy_bird-05 adds the Pipe sprite to our game, rendering it and "infinite" number of times.
 
-### flappy_bird-06 "The Infinite Pipe Update"
+### flappy_bird-06 "The PipePairs Update"
  * flappy_bird-06 spawns the pipe stripe in "pairs", with one pipe facing up and the other facing down.
 
 # Cloning
