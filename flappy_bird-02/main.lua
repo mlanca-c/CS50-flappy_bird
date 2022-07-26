@@ -112,4 +112,3 @@ function love.resize( w, h )
 	-- push library resize function call
 	push:resize( w, h )
 end
-
