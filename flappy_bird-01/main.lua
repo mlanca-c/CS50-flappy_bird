@@ -21,9 +21,21 @@ VIRTUAL_HEIGHT = 288
 -- love.graphics.newImage( filename ) creates a new Image from a filepath,
 --                                    and optionally generates or specifies
 --                                    mipmaps for the image
-local background = love.graphics.newImage( 'background.png' )
-local ground = love.graphics.newImage( 'ground.png' )
 
+-- ground image and the starting location of scroll
+local ground = love.graphics.newImage( 'ground.png' )
+local groundScroll = 0
+
+-- background image and the starting location of scroll
+local background = love.graphics.newImage( 'background.png' )
+local backgroundScroll = 0
+
+-- speed of the scrolling images
+local BACKGROUND_SCROLL_SPEED = 30
+local GROUND_SCROLL_SPEED = 60
+
+-- point at whcih the image loop goes back to 0
+local BACKGROUND_LOOPING_POINT = 413
 
 -- love.load() it's used to initialize game state at the very beginning.
 function love.load()
@@ -48,7 +60,12 @@ end
 
 -- love.update(dt) updates the state of the game every frame.
 function love.update( dt )
-	--
+
+	backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
+	                                          % BACKGROUND_LOOPING_POINT
+
+	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt ) % VIRTUAL_WIDTH
+
 end
 
 -- love.draw() is called right after love.update(dt) and draws an image to the
@@ -59,10 +76,10 @@ function love.draw()
 	push:start()
 
 	-- draw background
-	love.graphics.draw( background, 0, 0 )
+	love.graphics.draw( background, -backgroundScroll, 0 )
 
 	-- draw ground
-	love.graphics.draw( ground, 0, VIRTUAL_HEIGHT - 16 )
+	love.graphics.draw( ground, -groundScroll, VIRTUAL_HEIGHT - 16 )
 
 	-- drawing ends here
 	push:finish()
