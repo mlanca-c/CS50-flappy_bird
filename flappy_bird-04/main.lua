@@ -65,6 +65,9 @@ function love.load()
 		{ fullscreen = false, resizable = true, vsync = true }
 	)
 
+	-- initialize keys table
+	love.keyboard.keysPressed = {}
+
 end
 
 -- love.update(dt) updates the state of the game every frame.
@@ -75,7 +78,11 @@ function love.update( dt )
 
 	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt ) % VIRTUAL_WIDTH
 
+	-- update bird
 	bird:update( dt )
+
+	-- reset keys table
+	love.keyboard.keysPressed = {}
 
 end
 
@@ -103,10 +110,18 @@ end
 -- love.keypressed( key ) is triggered when a key is pressed.
 function love.keypressed( key )
 
+	-- add key to table of pressed keys
+	love.keyboard.keysPressed[ key ] = true
+
+	-- exit game
 	if key == 'escape' then
 		love.event.quit()
 	end
 
+end
+
+function love.keyboard.wasPressed( key )
+	return love.keyboard.keysPressed[ key ]
 end
 
 -- love.resize( w, h ) is called when the window is resized.
