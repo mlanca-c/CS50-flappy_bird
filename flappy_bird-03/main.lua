@@ -75,6 +75,8 @@ function love.update( dt )
 
 	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt ) % VIRTUAL_WIDTH
 
+	bird:update( dt )
+
 end
 
 -- love.draw() is called right after love.update(dt) and draws an image to the

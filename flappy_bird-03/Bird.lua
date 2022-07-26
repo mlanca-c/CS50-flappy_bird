@@ -9,6 +9,8 @@
 
 Bird = Class{}
 
+-- gravity value (arbitrary)
+local GRAVITY = 20
 
 -- initializes a Bird object with the right attributes
 function Bird:init()
@@ -24,11 +26,16 @@ function Bird:init()
 	self.x = VIRTUAL_WIDTH / 2 - ( self.width / 2 )
 	self.y = VIRTUAL_HEIGHT / 2 - ( self.height / 2 )
 
+	self.dy = 0
+
 end
 
 -- updates a Bird object's attributes
 function Bird:update( dt )
-	--
+
+	self.dy = self.dy + GRAVITY * dt
+	self.y = self.y + self.dy
+
 end
 
 -- draws a Bird object to the screen
