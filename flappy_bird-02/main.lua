@@ -7,6 +7,12 @@
 -- Version: 1.0
 -------------------------------------------------------------------------------
 
+-- class template for a more OOP aproach
+Class = require 'class'
+
+-- require Bird.lua class file
+require 'Bird'
+
 -- requiring push library for a more retro looking game
 push = require 'push'
 
@@ -36,6 +42,9 @@ local GROUND_SCROLL_SPEED = 60
 
 -- point at whcih the image loop goes back to 0
 local BACKGROUND_LOOPING_POINT = 413
+
+-- bird sprite
+local bird = Bird()
 
 -- love.load() it's used to initialize game state at the very beginning.
 function love.load()
@@ -80,6 +89,9 @@ function love.draw()
 
 	-- draw ground
 	love.graphics.draw( ground, -groundScroll, VIRTUAL_HEIGHT - 16 )
+
+	-- draw bird
+	bird:render()
 
 	-- drawing ends here
 	push:finish()
