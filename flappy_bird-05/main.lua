@@ -13,6 +13,9 @@ Class = require 'class'
 -- require Bird.lua class file
 require 'Bird'
 
+-- require Pipe.lua class file
+require 'Pipe'
+
 -- requiring push library for a more retro looking game
 push = require 'push'
 
@@ -46,6 +49,12 @@ local BACKGROUND_LOOPING_POINT = 413
 -- bird sprite
 local bird = Bird()
 
+-- pipe sprite table
+local pipes = {}
+
+-- determines how often to spawn a new pipe
+local spawnTimer = 0
+
 -- love.load() it's used to initialize game state at the very beginning.
 function love.load()
 
@@ -73,13 +82,34 @@ end
 -- love.update(dt) updates the state of the game every frame.
 function love.update( dt )
 
+	-- scroll background
 	backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
 	                                          % BACKGROUND_LOOPING_POINT
 
+	-- scroll ground
 	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt ) % VIRTUAL_WIDTH
+
+	spawnTimer = spawnTimer + dt
+
+	if spawnTimer > 2 then
+		table.insert( pipes, Pipe() )
+		print( 'Added new pipe!' )
+		spawnTimer = 0
+	end
 
 	-- update bird
 	bird:update( dt )
+
+	-- for every pipe in the scene
+	for k, pipe in pairs( pipes ) do
+
+		pipe:update( dt )
+
+		-- check if pipe is no longer visible
+		if pipe.x < -pipe.width then
+			table.remove( pipes, k )
+		end
+	end
 
 	-- reset keys table
 	love.keyboard.keysPressed = {}
@@ -95,6 +125,11 @@ function love.draw()
 
 	-- draw background
 	love.graphics.draw( background, -backgroundScroll, 0 )
+
+	-- draw pipes
+	for k, pipe in pairs( pipes ) do
+		pipe:render()
+	end
 
 	-- draw ground
 	love.graphics.draw( ground, -groundScroll, VIRTUAL_HEIGHT - 16 )
