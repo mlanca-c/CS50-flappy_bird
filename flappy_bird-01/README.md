@@ -6,7 +6,7 @@
 
 ## Documentation
 
- * flappy_bird-01 allows us to "scroll" the background and foreground along the screen in order to simulate motion
+ * flappy_bird-01 allows us to "scroll" the background and foreground along the screen in order to simulate motion.
  
 # Cloning
 
