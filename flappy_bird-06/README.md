@@ -1,4 +1,4 @@
-## flappy_bird-05 "The Infinite Pipe Update"
+## flappy_bird-06 "The Infinite Pipe Update"
 
  [![Stars](https://img.shields.io/github/stars/mlanca-c/CS50-flappy_bird?color=ffff00&label=Stars&logo=Stars&style=?style=flat)](https://github.com/mlanca-c/CS50-flappy_bird)
  [![Size](https://img.shields.io/github/repo-size/mlanca-c/CS50-flappy_bird?color=blue&label=Size&logo=Size&style=?style=flat)](https://github.com/mlanca-c/CS50-flappy_bird)
@@ -6,19 +6,19 @@
 
 ## Documentation
 
- * flappy_bird-05 adds the Pipe sprite to our game, rendering it and "infinite" number of times.
+ * flappy_bird-06 spawns the pipe stripe in "pairs", with one pipe facing up and the other facing down.
  
 # Cloning
 
  ```
  git clone git@github.com:mlanca-c/CS50-flappy_bird.git
  cd CS50-flappy_bird
- git checkout flappy_bird-05
+ git checkout flappy_bird-06
  ```
  
 # Compiling
  
  ```
- love flappy_bird-05
+ love flappy_bird-06
  ```
 
