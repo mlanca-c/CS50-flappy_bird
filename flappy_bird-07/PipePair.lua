@@ -9,13 +9,13 @@
 
 PipePair = Class{}
 
-PIPE_GAP = 90
+local PIPE_GAP = 90
 
 -- initializes a PipePair object with the right attributes
 function PipePair:init( y )
 
 	-- initializing pipePair coordinates
-	self.x = VIRTUAL_WIDTH
+	self.x = VIRTUAL_WIDTH + 32
 	self.y = y
 
 	-- initializing each pipePair individually

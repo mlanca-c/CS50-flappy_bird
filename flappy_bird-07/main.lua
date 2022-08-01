@@ -55,6 +55,9 @@ local pipes = {}
 -- timer for spawning pipes
 local spawnTimer = 0
 
+-- scrolling variable that when set to false, stops the game
+local scrolling = true
+
 -- initialize our last recorded Y value for a gap placement to base other gaps
 -- off of
 local lastY = -PIPE_HEIGHT + math.random(80) + 20
@@ -77,60 +80,76 @@ function love.load()
 	)
 
 	-- initialize keyspressed table
-	keyspressed = {}
+	love.keyboard.keysPressed = {}
 
 end
 
 -- love.update(dt) updates the state of the game every frame.
 function love.update( dt )
-	-- claculating groundScroll
-	groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt )
-					% GROUND_LOOP_POINT
+	if scrolling then
+		-- claculating groundScroll
+		groundScroll = ( groundScroll + GROUND_SCROLL_SPEED * dt )
+						% GROUND_LOOP_POINT
 
-	-- claculating backgroundScroll
-	backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
-					% BACKGROUND_LOOP_POINT
+		-- claculating backgroundScroll
+		backgroundScroll = ( backgroundScroll + BACKGROUND_SCROLL_SPEED * dt )
+						% BACKGROUND_LOOP_POINT
 
-	-- update spawnTimer
-	spawnTimer = spawnTimer + dt
+		-- update spawnTimer
+		spawnTimer = spawnTimer + dt
 
-	-- spawn a new pipe in every two seconds
-	if spawnTimer > 2 then
+		-- spawn a new pipe in every two seconds
+		if spawnTimer > 2 then
 
-		-- getting y value of pipePair
-		local y = math.random(
-			-PIPE_HEIGHT + 10,
-			math.min(
-				lastY + math.random( -20, 20 ),
-				VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT
+			-- getting y value of pipePair
+			local y = math.random(
+				-PIPE_HEIGHT + 10,
+				math.min(
+					lastY + math.random( -20, 20 ),
+					VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT
+				)
 			)
-		)
-		lastY = y
-		table.insert( pipes, PipePair(y) )
-		spawnTimer = 0
+			lastY = y
 
-	end
+			-- inserting one more pipePair object in image
+			table.insert( pipes, PipePair( y ))
+			spawnTimer = 0
 
-	-- for every pipe in the scene
-	for k, pipe in pairs( pipes ) do
-		-- update each pipe
-		pipe:update( dt )
-	end
+		end
 
-	-- for every pipe in the scene
-	for k, pipe in pairs( pipes ) do
+		-- update bird
+		bird:update( dt )
 
-		-- remove pipes out of the scene
-		if pipe.remove then
-			table.remove( pipes, k )
+		-- for every pipe in the scene
+		for k, pair in pairs( pipes ) do
+			-- update each pipe
+			pair:update( dt )
+
+			-- check for collisions
+			for l, pipe in pairs( pair.pipes ) do
+				if bird:collides( pipe ) then
+					scrolling = false
+				end
+			end
+
+			if pair.x < -PIPE_WIDTH then
+				pair.remove = true
+			end
+
+		end
+
+		-- for every pipe in the scene
+		for k, pipe in pairs( pipes ) do
+
+			-- remove pipes out of the scene
+			if pipe.remove then
+				table.remove( pipes, k )
+			end
 		end
 	end
 
-	-- update bird
-	bird:update( dt )
-
 	-- restart keyspressed table
-	keyspressed = {}
+	love.keyboard.keysPressed = {}
 
 end
 
@@ -163,7 +182,7 @@ end
 
 function love.keypressed( key )
 	-- update keyspressed table with pressed key
-	keyspressed[ key ] = true
+	love.keyboard.keysPressed[ key ] = true
 
 	if key == 'escape' then
 		love.event.quit()
@@ -171,7 +190,7 @@ function love.keypressed( key )
 end
 
 function love.keyWasPressed( key )
-	return keyspressed[ key ]
+	return love.keyboard.keysPressed[ key ]
 end
 
 function love.resize( w, h )

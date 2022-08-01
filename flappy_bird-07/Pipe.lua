@@ -14,6 +14,7 @@ local PIPE_IMAGE = love.graphics.newImage( 'pipe.png' )
 
 PIPE_SCROLL_SPEED = -60
 
+-- pipe dimensions
 PIPE_HEIGHT = 430
 PIPE_WIDTH = 70
 
@@ -24,8 +25,8 @@ function Pipe:init( type, y )
 	self.type = type
 
 	-- initializing Pipe dimensions
-	self.width = PIPE_IMAGE:getWidth()
-	self.height = PIPE_IMAGE:getHeight()
+	self.width = PIPE_WIDTH
+	self.height = PIPE_HEIGHT
 
 	-- initializing Pipe coordinates
 	self.x = VIRTUAL_WIDTH
