@@ -6,6 +6,7 @@
  
 ## Documentation
 
+### flappy_bird-00 "The Day-0 Update"
  * flappy_bird-00 simply draws two images to the screen - a foreground and a background.
 
 ### flappy_bird-01 "The Parallax Update"
